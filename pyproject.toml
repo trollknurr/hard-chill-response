@@ -2,7 +2,7 @@
 name = "hard-chill-bot"
 version = "0.1.0"
 description = ""
-authors = ["Hard Chill Team <a.o.shtarev@gmail.com>"]
+authors = ["Hard Chill Team <https://t.me/+4YwtwXoWScM0MzEy>"]
 readme = "README.md"
 packages = [
     { include = "**/*", from = "src" }
@@ -28,8 +28,8 @@ build-backend = "poetry.core.masonry.api"
 [tool.ruff]
 src = ["src"]
 line-length = 120
-# Python 3.10.
-target-version = "py310"
+# Python 3.11.
+target-version = "py311"
 # Group violations by containing file.
 output-format = "full"
 # By default, always show source code snippets.
@@ -183,8 +183,8 @@ suppress-dummy-args = true
 
 [tool.black]
 line-length = 120
-# Python 3.10.
-target-version = ["py310"]
+# Python 3.11
+target-version = ["py311"]
 # Colored output.
 color = true
 
