@@ -5,7 +5,7 @@ format:
 lint:
 	black --check src/
 	ruff check src/
-	mypy --install-types src/
+	mypy --install-types --non-interactive src/
 
 rebuild:
 	docker-compose up -d --build bot
