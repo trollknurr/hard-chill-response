@@ -5,7 +5,7 @@ jobs:
     name: linter
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -24,4 +24,4 @@ jobs:
         poetry config virtualenvs.in-project true
         poetry install --only dev --no-interaction --no-ansi
     - name: Check lint
-      run: make lint
+      run: poetry run make lint
