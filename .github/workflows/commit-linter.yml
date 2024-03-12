@@ -23,7 +23,7 @@ jobs:
         pip install poetry
     - name: Install dev deps
       run: |
-        poetry config settings.virtualenvs.in-project true
-        poetry install --only dev
+        poetry config virtualenvs.in-project true
+        poetry install --only dev --no-interaction --no-ansi
     - name: Check lint
       run: make lint
