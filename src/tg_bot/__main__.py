@@ -5,8 +5,8 @@ from telegram import Update
 from telegram.ext import Application, ContextTypes, MessageHandler, filters
 
 from adapter.input.tg_echo_message import TelegramEchoText
-from tg_bot.container import Container
 from domain.models import HumanTextInput
+from tg_bot.container import Container
 
 # TODO: Cool logging
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)

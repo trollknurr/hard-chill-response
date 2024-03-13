@@ -32,18 +32,16 @@ line-length = 120
 target-version = "py311"
 # Group violations by containing file.
 output-format = "full"
-# By default, always show source code snippets.
-show-source = true
 # Avoid automatically removing unused imports in __init__.py files.
-ignore-init-module-imports = true
+lint.ignore-init-module-imports = true
 # Disable warinings on this tags.
-task-tags = ["TODO"]
+lint.task-tags = ["TODO"]
 # Django auto-generated migrations
 exclude = [
     "**/migrations/*.py"
 ]
 # Rules.
-select = [
+lint.select = [
     # pycodestyle.
     "E", "W",
     # Pyflakes.
@@ -108,7 +106,7 @@ select = [
     "RUF",
 ]
 # Disable.
-ignore = [
+lint.ignore = [
     # Missing docstring in public module.
     "D100",
     # Missing docstring in public class.
@@ -156,28 +154,28 @@ ignore = [
     "D415"
 ]
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 # Combines "as" imports on the same line.
 combine-as-imports = true
 # Place "closer" imports (fewer . characters, most local) before "further" imports.
 relative-imports-order = "closest-to-furthest"
 
-[tool.ruff.flake8-tidy-imports]
+[tool.ruff.lint.flake8-tidy-imports]
 # Disallow all relative imports.
 ban-relative-imports = "all"
 
-[tool.ruff.pep8-naming]
+[tool.ruff.lint.pep8-naming]
 # Allow Pydantic's `@validator` decorator to trigger class method treatment.
 classmethod-decorators = ["classmethod", "pydantic.validator", "pydantic.root_validator"]
 
-[tool.ruff.pycodestyle]
+[tool.ruff.lint.pycodestyle]
 max-doc-length = 100
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 # Use Google-style docstrings.
 convention = "google"
 
-[tool.ruff.flake8-annotations]
+[tool.ruff.lint.flake8-annotations]
 # Suppress ANN000-level violations for arguments matching the "dummy" variable regex (like _).
 suppress-dummy-args = true
 
