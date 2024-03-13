@@ -1,26 +1,23 @@
-name: Lint
+name: lint-and-test
 on: [push]
 jobs:
-  linter:
-    name: linter
+  lint-and-test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: 3.11
     - name: Set up Poetry cache for Python dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
-        path: ${{ github.workspace }}/.venv
-        key: dependencies-${{ hashFiles('**/poetry.lock') }}
-        restore-keys: dependencies-
+        path: ./.venv
+        key: venv-${{ hashFiles('poetry.lock') }}
     - name: Install deps poetry
-      if: steps.cache-dependencies.cache-hit != 'true'
       run: |
         python -m pip install --upgrade pip
-        pip install poetry
+        pip install poetry==1.8.2
         poetry config virtualenvs.in-project true
         poetry install --with dev --no-interaction --no-ansi
     - name: Check lint
