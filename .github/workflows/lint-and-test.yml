@@ -36,5 +36,5 @@ jobs:
         run: poetry run make lint
 
       - name: Test
-        if: ${{ github.event_name == 'pull_request' && github.ref == 'refs/heads/main' }}
+        if: ${{ github.event_name == 'pull_request' }}
         run: poetry run pytest tests/
