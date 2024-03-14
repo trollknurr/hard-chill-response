@@ -1,35 +1,43 @@
 name: lint-and-test
-on: [push]
+on:
+  push:
+  pull_request:
+    branches:
+      - main
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: 3.11
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
 
-    - name: Install Poetry
-      uses: snok/install-poetry@v1
-      with:
-        version: 1.8.2
-        virtualenvs-create: true
-        virtualenvs-in-project: true
-        installer-parallel: true
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.8.2
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          installer-parallel: true
 
-    - name: Load cached venv
-      id: cached-poetry-dependencies
-      uses: actions/cache@v4
-      with:
-        path: .venv
-        key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
-    - name: Install dependencies
-      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-      run:  poetry install --with dev --no-interaction --no-ansi
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --with dev --no-interaction --no-ansi
 
-    - name: Check lint
-      run: poetry run make lint
+      - name: Check lint
+        run: poetry run make lint
+
+      - name: Test
+        if: github.event_name == 'pull_request' && github.ref == 'refs/heads/main'
+        run: poetry run pytest tests/
