@@ -1,0 +1,27 @@
+name: test
+on:
+  push:
+     branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  PYTHON_VERSION: "3.11"
+  POETRY_VERSION: "1.8.2"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Common Setup
+        uses: ./.github/actions/common-actions
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          poetry-version: ${{ env.POETRY_VERSION }}
+          env-groups: "dev"
+
+      - name: Test
+        run: poetry run pytest tests/

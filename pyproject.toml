@@ -17,10 +17,13 @@ dependency-injector = "^4.41.0"
 
 
 [tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
+
+[tool.poetry.group.lint.dependencies]
 black = "^24.2.0"
 ruff = "^0.3.2"
 mypy = "^1.9.0"
-pytest = "^8.1.1"
+
 
 [build-system]
 requires = ["poetry-core"]
