@@ -1,0 +1,52 @@
+name: 'Common Setup for Python and Poetry'
+description: 'Check out repository, set up Python, cache and install Poetry, load cached venv'
+inputs:
+  python-version:
+    description: 'Version of Python to use'
+    required: true
+  poetry-version:
+    description: 'Version of Poetry to install'
+    required: true
+  env-groups:
+    description: 'Version of Poetry to install'
+    required: true
+outputs:
+  python-version:
+    description: "The Python version that was set up"
+    value: ${{ steps.setup_python.outputs.python-version }}
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      id: setup_python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Load cached poetry
+      id: cached-poetry-install
+      uses: actions/cache@v4
+      with:
+        path: ~/.local
+        key: poetry-cache-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ inputs.poetry-version }}
+
+    - name: Install Poetry
+      if: steps.cached-poetry-install.outputs.cache-hit != 'true'
+      uses: snok/install-poetry@v1
+      with:
+        version: ${{ inputs.poetry-version }}
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+        installer-parallel: true
+
+    - name: Load cached venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v4
+      with:
+        path:  ~/.cache/pypoetry/virtualenvs
+        key: venv-${{ inputs.env-groups }}-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
+    - name: Install dependencies
+      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      shell: bash
+      run: poetry install --with ${{ inputs.env-groups }} --no-interaction --no-ansi
